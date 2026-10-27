@@ -345,10 +345,10 @@ table.xs td .xi { position: absolute; left: 2px; top: 2px; z-index: 2; max-width
 .qb-tabs button:hover { transform: translateY(0); }
 .qb-tabs button[aria-selected="true"] { background: var(--qb-paper); transform: translateY(1px); }
 .qb-frame { background: var(--qb-cover); border-radius: 24px; padding: 12px; }
-.qb-win { position: relative; height: clamp(320px, 50vw, 560px); overflow: hidden; border-radius: 14px; background: var(--qb-paper); }
-.qb-win img { position: absolute; left: 0; top: 0; width: 100%; height: auto; max-width: none; transition: opacity .5s ease; }
-.qb-win img.pan { animation: qbpan 16s ease-in-out infinite alternate; }
-@keyframes qbpan { 0%, 12% { transform: translateY(0); } 88%, 100% { transform: translateY(var(--pan, 0px)); } }
+.qb-win { position: relative; height: clamp(320px, 50vw, 560px); overflow-y: auto; overscroll-behavior: contain; border-radius: 14px; background: var(--qb-paper); scrollbar-width: none; -ms-overflow-style: none; }
+.qb-win::-webkit-scrollbar { display: none; }
+.qb-win img { display: block; width: 100%; height: auto; max-width: none; transition: opacity .3s ease; }
+.qb-hint { font-family: var(--note); font-size: 1.15rem; color: var(--hand); margin: 6px 0 0 4px; }
 .qb-cap { margin-top: 10px; font-size: .95rem; color: var(--muted); max-width: 720px; }
 @media (prefers-reduced-motion: reduce) { .qb-win img.pan { animation: none; } .qb-win { overflow: auto; } }
 .cmp { overflow-x: auto; }
@@ -485,6 +485,14 @@ table.xs td .xi { position: absolute; left: 2px; top: 2px; z-index: 2; max-width
 .pol-ggj img { display: block; width: 100%; height: auto; border-radius: 3px; }
 .pol-ggj figcaption { font-family: var(--note); font-size: 1.05rem; line-height: 1.15; color: var(--ink); padding: 10px 4px 0; text-align: center; }
 .pol-ggj .tp { position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; transform: translateX(-50%) rotate(3deg); background: rgba(244,197,66,.75); border-radius: 2px; }
+.cvmodal { position: fixed; inset: 0; z-index: 100; background: rgba(19,34,42,.6); display: grid; place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.cvmodal[hidden] { display: none; }
+.cvbox { background: #fff; border-radius: 16px; width: min(820px, 100%); max-height: 100%; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.35); }
+.cvbar { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); color: var(--ink); }
+.cvbar button { border: 0; background: var(--paper); width: 36px; height: 36px; border-radius: 50%; font-size: 1rem; cursor: pointer; color: var(--ink); }
+.cvscroll { overflow-y: auto; }
+.cvscroll img { display: block; width: 100%; height: auto; }
 /* FEC page */
 #fec .p-hero { background: var(--fec); color: #fff; }
 #fec .p-hero .label { color: #f6dc9c; }
@@ -961,8 +969,8 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
             <button type="button" role="tab" style="--tc:#d4c8ef" data-i="3" aria-selected="false">Rewards</button>
             <button type="button" role="tab" style="--tc:#c6def0" data-i="4" aria-selected="false">Journal</button>
           </div>
-          <div class="qb-frame"><div class="qb-win" id="qb-win"><img id="qb-img" src="img/qb-today.jpg" alt="Questbook Today tab" class="pan"></div></div>
-          <p class="qb-cap" id="qb-cap"></p>
+          <div class="qb-frame"><div class="qb-win" id="qb-win"><img id="qb-img" src="img/qb-today.jpg" alt="Questbook Today tab"></div></div>
+                    <p class="qb-cap" id="qb-cap"></p>
         </div>
         <p class="read" style="font-size:.95rem;color:var(--muted)">All screens use placeholder example data.</p>
       </div>
@@ -1450,26 +1458,68 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
     ['img/qb-today.jpg', 'Today: a greeting, energy-aware modes, daily quests, habits with 2-minute fallbacks, a gratitude list and a radar of life areas.'],
     ['img/qb-quests.jpg', 'Quests: goals become collectible cards (boss, main, side and daily) with missions, XP and illustrated art.'],
     ['img/qb-habits.jpg', 'Habits: habit stacks anchored to existing routines, a "1% better every day" curve, and identity-linked habit cards.'],
-    ['img/qb-rewards.jpg', 'Rewards: a coin shop of rewards I choose, level milestones, a sticker sheet and seasonal event badges.'],
+    ['img/qb-rewards.jpg', 'Rewards: a shop of rewards I choose, level milestones, a sticker sheet and seasonal event badges.'],
     ['img/qb-journal.jpg', 'Journal: calendar, week plan, reviews, morning intention, evening reflection, mood and energy.']
   ];
   var root = document.getElementById('qbs'); if (!root) return;
   var img = document.getElementById('qb-img'), win = document.getElementById('qb-win'), cap = document.getElementById('qb-cap');
   var btns = root.querySelectorAll('.qb-tabs button'), cur = 0, timer = null;
-  function setPan() { var over = img.offsetHeight - win.clientHeight; img.style.setProperty('--pan', (over > 0 ? -over : 0) + 'px'); }
-  function show(i) {
-    cur = i; img.style.opacity = 0;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var raf = null, wait = null, paused = false, t0 = 0, dur = 0, from = 0, to = 0;
+  function ease(x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; }
+  function stop() { if (raf) cancelAnimationFrame(raf); raf = null; clearTimeout(wait); wait = null; }
+  function frame(ts) {
+    if (paused) { raf = null; return; }
+    if (!t0) t0 = ts;
+    var k = Math.min(1, (ts - t0) / dur);
+    win.scrollTop = from + (to - from) * ease(k);
+    if (k < 1) { raf = requestAnimationFrame(frame); return; }
+    raf = null;
+    wait = setTimeout(function () { show((cur + 1) % shots.length, true); }, 1800);
+  }
+  function run() {
+    stop(); if (reduce || paused) return;
+    if (!win.clientHeight || !img.naturalHeight) { wait = setTimeout(run, 500); return; }
+    var max = win.scrollHeight - win.clientHeight;
+    if (max <= 0) { wait = setTimeout(function () { show((cur + 1) % shots.length, true); }, 4000); return; }
+    wait = setTimeout(function () { from = win.scrollTop; to = max; dur = Math.max(4000, max * 9); t0 = 0; raf = requestAnimationFrame(frame); }, 1200);
+  }
+  function show(i, auto) {
+    stop(); cur = i; img.style.opacity = 0;
     setTimeout(function () {
       img.src = shots[i][0]; img.alt = 'Questbook ' + btns[i].textContent + ' tab'; cap.textContent = shots[i][1];
-      img.classList.remove('pan'); void img.offsetWidth; img.classList.add('pan'); img.style.opacity = 1;
-    }, 250);
+      win.scrollTop = 0; img.style.opacity = 1;
+      if (img.complete) run(); else img.onload = run;
+    }, 200);
     btns.forEach(function (b, j) { b.setAttribute('aria-selected', j === i ? 'true' : 'false'); });
   }
-  img.addEventListener('load', setPan); window.addEventListener('resize', setPan);
-  btns.forEach(function (b) { b.addEventListener('click', function () { clearInterval(timer); timer = null; show(+b.dataset.i); }); });
+  btns.forEach(function (b) { b.addEventListener('click', function () { paused = false; show(+b.dataset.i); }); });
+  function hold() { paused = true; stop(); }
+  function resume() { if (!paused) return; paused = false; run(); }
+  win.addEventListener('wheel', hold, { passive: true });
+  win.addEventListener('touchstart', hold, { passive: true });
+  win.addEventListener('mouseenter', hold);
+  win.addEventListener('mouseleave', resume);
+  win.addEventListener('touchend', function () { setTimeout(resume, 2500); });
+  if (img.complete) run(); else img.onload = run;
   cap.textContent = shots[0][1];
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce) timer = setInterval(function () { show((cur + 1) % shots.length); }, 9000);
+})();
+</script>
+<div class="cvmodal" id="cvmodal" hidden role="dialog" aria-modal="true" aria-label="My CV">
+  <div class="cvbox">
+    <div class="cvbar"><b>Dai Ashraf · CV</b><button type="button" id="cvclose" aria-label="Close CV">✕</button></div>
+    <div class="cvscroll"><img src="img/cv-1.jpg" alt="Dai Ashraf's CV: UX/UI designer and researcher" loading="lazy"></div>
+  </div>
+</div>
+<script>
+(function () {
+  var m = document.getElementById('cvmodal'), close = document.getElementById('cvclose');
+  function open(e) { e.preventDefault(); e.stopImmediatePropagation(); m.hidden = false; close.focus(); }
+  function shut() { m.hidden = true; }
+  document.addEventListener('click', function (e) { var a = e.target.closest('[data-cv]'); if (a) open(e); }, true);
+  close.addEventListener('click', shut);
+  m.addEventListener('click', function (e) { if (e.target === m) shut(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !m.hidden) shut(); });
 })();
 </script>
 <script>
