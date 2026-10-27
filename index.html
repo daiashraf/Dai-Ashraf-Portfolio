@@ -461,6 +461,8 @@ table.xs td .xi { position: absolute; left: 2px; top: 2px; z-index: 2; max-width
 .kidcard { background: var(--qb-desk); color: #fff; border-radius: 20px; padding: 22px 24px; display: grid; gap: 8px; max-width: 760px; }
 .kidcard .m { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--qb-butter); }
 .kidcard b { font-family: var(--display); font-size: 1.3rem; }
+.kidcard.mh { background: var(--mh-1); color: var(--ink); }
+.kidcard.mh .m { color: #fff; }
 .stat b { font-size: clamp(1.7rem, 3.6vw, 2.6rem); overflow-wrap: anywhere; }
 .stat-row > * { min-width: 0; }
 @media (max-width: 1100px) and (min-width: 621px) { .stat-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -476,6 +478,13 @@ table.xs td .xi { position: absolute; left: 2px; top: 2px; z-index: 2; max-width
 .tldr p { font-size: 1rem; line-height: 1.45; }
 #mentle .tldr > div { background: rgba(255,255,255,.45); border-color: rgba(19,34,42,.12); }
 @media (max-width: 760px) { .tldr { grid-template-columns: minmax(0, 1fr); } }
+.gov { font-size: .9rem; font-weight: 600; color: var(--muted); display: inline-flex; gap: 8px; align-items: center; }
+.gov::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--iti); display: block; }
+.about-l { display: grid; gap: 26px; align-content: start; }
+.pol-ggj { position: relative; background: #fff; padding: 8px 8px 12px; border-radius: 6px; box-shadow: 0 14px 26px rgba(19,34,42,.14); transform: rotate(-2deg); max-width: 300px; margin: 0; }
+.pol-ggj img { display: block; width: 100%; height: auto; border-radius: 3px; }
+.pol-ggj figcaption { font-family: var(--note); font-size: 1.05rem; line-height: 1.15; color: var(--ink); padding: 10px 4px 0; text-align: center; }
+.pol-ggj .tp { position: absolute; top: -12px; left: 50%; width: 90px; height: 24px; transform: translateX(-50%) rotate(3deg); background: rgba(244,197,66,.75); border-radius: 2px; }
 /* FEC page */
 #fec .p-hero { background: var(--fec); color: #fff; }
 #fec .p-hero .label { color: #f6dc9c; }
@@ -510,7 +519,7 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
   <div class="gut"><div class="wrap">
     <div class="bar">
       <a class="brand" href="#home">Dai Ashraf</a>
-      <nav aria-label="Projects"><a href="#questbook">Questbook</a><a href="#hub">Dashboards</a><a href="#iti">Feedback loop</a><a href="#mentle">Mentle</a><a href="#fec">FEC</a><a href="#contact">Contact</a><a class="cvbtn" href="https://drive.google.com/file/d/1mUeKTRLTqIdM7cObuhT0ZhbQy6ExCBw9/view?usp=sharing" target="_blank" rel="noopener">My CV ↗</a></nav>
+      <nav aria-label="Projects"><a href="#questbook">Questbook</a><a href="#hub">Dashboards</a><a href="#iti">Feedback loop</a><a href="#mentle">Mentle</a><a href="#fec">FEC</a><a href="#contact">Contact</a><a class="cvbtn" href="cv.pdf" target="_blank" rel="noopener">My CV ↗</a></nav>
     </div>
 
     <header class="hero">
@@ -520,6 +529,7 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
         <div class="side">
           <span class="pill"><i></i>Open to UX/UI &amp; research roles</span>
           <span class="note">art &amp; design → game art → UX/UI</span>
+          <span class="gov">Currently at ITI · Ministry of Communications &amp; IT, Egypt</span>
         </div>
       </div>
       <div class="board" aria-label="A peek at my projects">
@@ -591,12 +601,19 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
     </div>
 
     <section class="about">
-      <h2>What I bring</h2>
+      <div class="about-l">
+        <h2>A bit about me</h2>
+        <figure class="pol-ggj">
+          <span class="tp"></span>
+          <img src="img/ggj.jpg" alt="Dai and the team in Global Game Jam hoodies, standing with Egypt's then Minister of Communications and IT, Dr. Amr Talaat" loading="lazy">
+          <figcaption>Global Game Jam 2023: my team won, and we got to meet the Minister of Communications &amp; IT ♡</figcaption>
+        </figure>
+      </div>
       <div style="display:grid;gap:22px">
-        <p>I studied art and design and worked as a game artist, so I think in pictures and I can take an idea from a messy sketch to a clickable prototype. Supervising game development students at ITI is where I fell for research: I ran check-ins, 1:1s and surveys, and loved seeing small changes make a real difference. Right now I'm a corporate image and graphic designer at ITI, and I spend my free time building Questbook.</p>
+        <p>I studied art and design and worked as a game artist, so I think in pictures and I can take an idea from a messy sketch to a clickable prototype. Supervising game development students at ITI is where I fell for research: I ran check-ins, 1:1s and surveys, and loved seeing small changes make a real difference. Right now I'm a corporate image and graphic designer at ITI, the Information Technology Institute, a government institute under Egypt's Ministry of Communications and IT. In my free time I build Questbook.</p>
         <div class="methods">
           <div><span class="label">Discover</span><ul><li>User interviews</li><li>Surveys</li><li>Field visits</li><li>Playtesting sessions</li><li>Competitor analysis</li></ul></div>
-          <div><span class="label">Make sense</span><ul><li>Feedback synthesis</li><li>Journey mapping</li><li>Sitemaps &amp; IA</li><li>User flows</li></ul></div>
+          <div><span class="label">Make sense</span><ul><li>Feedback synthesis</li><li>Journey mapping</li><li>Sitemaps &amp; information architecture</li><li>User flows</li></ul></div>
           <div><span class="label">Design</span><ul><li>Sketching</li><li>Wireframes</li><li>Hi-fi prototypes</li><li>Style tiles</li><li>Figma</li></ul></div>
           <div><span class="label">Evaluate</span><ul><li>Heuristic review</li><li>WCAG contrast checks</li><li>Usability test planning</li><li>AI experience review</li></ul></div>
         </div>
@@ -620,7 +637,7 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
         </div></div>
       <div class="tldr" aria-label="Quick summary"><div><span>The problem</span><p>No handover, and files, rules and contacts were scattered everywhere.</p></div><div><span>What I did</span><p>Asked staff and students what they needed, then built a staff and a student dashboard.</p></div><div><span>The result</span><p>~7 staff and all students used them, and most repeat questions stopped.</p></div></div>
       <div class="facts">
-        <div><span class="label">Role</span><b>Solo: research, IA, build</b></div>
+        <div><span class="label">Role</span><b>Solo: research, information architecture, build</b></div>
         <div><span class="label">Users</span><b>~7 staff, every student</b></div>
         <div><span class="label">Methods</span><b>User questions, repeat-question log, iteration</b></div>
         <div><span class="label">Tools</span><b>Google Sheets, Forms, Drive</b></div>
@@ -633,7 +650,7 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
       <div class="k"><span class="num">01</span><span class="label">Problem</span></div>
       <div class="c read">
         <h3>Learning everything from scratch</h3>
-        <p>I had to learn everything from scratch. Course plans, schedules, rules and contacts were scattered across drives, chats and inboxes. I spent hours hunting for files, other staff did too, and students kept asking me the same questions because there was nowhere to look.</p>
+        <p>Nobody was there to show me how things worked. Course plans, schedules, rules and contacts were scattered across drives, chats and inboxes. I spent hours hunting for files, other staff did too, and students kept asking me the same questions because there was nowhere to look.</p>
       </div>
     </div>
 
@@ -846,10 +863,10 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
     <div class="wrap">
       <div class="bar" style="padding-block:0 12px"><a class="brand" href="#home" style="color:#fff">← All work</a><span class="label">Case study 1 of 5</span></div>
       <span class="label">Product design · UX · AI-assisted prototype · 2026</span>
-      <h1>Questbook: a life notebook that plays like a game</h1>
+      <h1>Questbook: a planner that plays like a game</h1>
       <p class="sub">I work in games and I'm a bit obsessed with productivity. I kept forgetting tasks and dropping planners after a week, so I built a planner you come back to because it's fun, not because you have to.</p>
       <div class="qb-video"><video src="vid/qb-tour.mp4" poster="vid/qb-tour.jpg" autoplay muted loop playsinline controls preload="auto" aria-label="Tour of the Questbook app with example data"></video></div>
-      <div class="tldr" aria-label="Quick summary"><div><span>The problem</span><p>I kept forgetting plans and dropping planners after a week.</p></div><div><span>What I did</span><p>Designed and built a planner that works like a game, using the four laws of habits.</p></div><div><span>The result</span><p>I use it every day, and it's growing into a product I plan to sell.</p></div></div>
+      <div class="tldr" aria-label="Quick summary"><div><span>The problem</span><p>I kept forgetting plans and dropping planners after a week.</p></div><div><span>What I did</span><p>Designed and built a planner that works like a game, using the four laws of habits.</p></div><div><span>The result</span><p>A working app with dozens of features, growing into a product I plan to sell.</p></div></div>
       <div class="facts">
         <div><span class="label">Role</span><b>Solo: research, UX, UI, prototype</b></div>
         <div><span class="label">Platform</span><b>Web app, desktop &amp; mobile</b></div>
@@ -878,9 +895,8 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
           <tbody>
             <tr><th scope="row">Habits, goals and journal</th><td>Usually separate apps</td><td>One notebook</td></tr>
             <tr><th scope="row">Four laws of behaviour change</th><td>Not built in</td><td>Built into every habit</td></tr>
-            <tr><th scope="row">Motivation</th><td>Streaks and reminders</td><td>Quests, XP, coins, levels and rewards</td></tr>
+            <tr><th scope="row">Motivation</th><td>Streaks and reminders</td><td>Quests, XP, levels and rewards</td></tr>
             <tr><th scope="row">Forgotten tasks</th><td>A list you stop opening</td><td>Today pulls in plans, deadlines and due habits</td></tr>
-            <tr><th scope="row">Kids</th><td>I couldn't find any</td><td>A kids therapy section, guided by parents</td></tr>
             <tr><th scope="row">Busy days</th><td>A broken streak</td><td>2-minute versions and pause modes</td></tr>
             <tr><th scope="row">Personalisation</th><td>Limited</td><td>Your own areas, rewards, avatar and sections</td></tr>
           </tbody>
@@ -904,7 +920,7 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
           <div><span class="ln-n">1</span><b>Make it obvious</b><ul><li>Habit stacks: "After I…, I will…"</li><li>A time and place for every habit</li><li>Today shows only what's due, with clear cues</li></ul></div>
           <div><span class="ln-n">2</span><b>Make it attractive</b><ul><li>Goals become illustrated quest cards</li><li>Temptation bundling: pair a habit with something you enjoy</li><li>A customisable avatar, stickers and seasonal events</li></ul></div>
           <div><span class="ln-n">3</span><b>Make it easy</b><ul><li>A 2-minute version of every habit</li><li>"Take it easy" modes for low-energy, sick and travel days</li><li>"One thing" mode when everything feels like too much</li></ul></div>
-          <div><span class="ln-n">4</span><b>Make it satisfying</b><ul><li>XP, coins and levels for every action</li><li>A reward shop with rewards you choose yourself</li><li>Progress you can see: trackers, the "1% better" curve, milestones</li></ul></div>
+          <div><span class="ln-n">4</span><b>Make it satisfying</b><ul><li>XP and levels for every action</li><li>A reward shop with rewards you choose yourself</li><li>Progress you can see: trackers, the "1% better" curve, milestones</li></ul></div>
         </div>
         <div class="qb-princ" style="margin-top:4px">
           <div><span class="tg">Identity</span><b>Every action is a vote</b><p>Habits are linked to who you want to become, and the app shows which identity each one supports.</p></div>
@@ -918,7 +934,7 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
       <div class="k"><span class="num">05</span><span class="label">Problem solving</span></div>
       <div class="c">
         <h3>Things that went wrong, and how I fixed them</h3>
-        <p class="read">I use Questbook every day, so I felt every annoying thing myself, and the UX feedback round caught even more. My rule for every fix: keep it fun, and make it easy to come back.</p>
+        <p class="read">Using Questbook myself, I felt every annoying thing first-hand, and the UX feedback round caught even more. My rule for every fix: keep it fun, and make it easy to come back.</p>
         <div class="pf">
           <div><span class="m">Confusing currency</span><p class="pb">I had XP and coins. Even I got confused, and spending felt like losing progress.</p><p class="fx">One wallet: every XP earned also lands in your wallet, and spending never lowers your level.</p></div>
           <div><span class="m">Losing momentum</span><p class="pb">One busy or sick day would break my streaks, and then I'd stop opening the app.</p><p class="fx">"Take it easy" modes pause or shrink everything, and a Streak Shield power-up protects a missed day.</p></div>
@@ -956,11 +972,6 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
       <div class="k"><span class="num">07</span><span class="label">Smart features</span></div>
       <div class="c">
         <h3>The little things I'm most proud of</h3>
-        <div class="kidcard">
-          <span class="m">Only in Questbook</span>
-          <b>A kids therapy section, guided by parents</b>
-          <p>While researching, I couldn't find a single planner or habit app with anything for children. So Questbook has a section for kids' therapy routines that parents set up and guide, using the same quests and rewards that make the rest of the app fun.</p>
-        </div>
         <div class="fgal">
           <figure><img src="img/f-easy.jpg" alt="Take it easy dialog with low energy, sick and travel day options" loading="lazy"><figcaption><b>Take it easy</b>Tired, sick or travelling? Habits shrink to their 2-minute version or pause, and your streaks stay safe.</figcaption></figure>
           <figure><img src="img/f-identity.jpg" alt="Identity star map linking identities like Creator, Reader and Healthy One" loading="lazy"><figcaption><b>Identity star map</b>Every habit is a vote for someone you're becoming. Identities grow as stars and connect when habits overlap.</figcaption></figure>
@@ -1021,7 +1032,7 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
       <h1>Mentle: one calm place instead of five apps</h1>
       <p class="sub">A uni project I still care about: a phone and Apple Watch app for people who can't easily get mental health care, to help them notice their mood, handle stress and keep up good habits.</p>
       <figure class="hero-shot"><img src="img/hifi-trio.jpg" alt="Three phone mockups of Mentle showing the home, games and meditation screens" width="1287" height="978"></figure>
-      <div class="tldr" aria-label="Quick summary"><div><span>The problem</span><p>People needed four or five apps to get basic mental health support.</p></div><div><span>What I did</span><p>Interviewed people, reviewed the main apps, then designed one app that combines the best parts.</p></div><div><span>The result</span><p>A full flow, wireframes and a hi-fi prototype for phone and Apple Watch.</p></div></div>
+      <div class="tldr" aria-label="Quick summary"><div><span>The problem</span><p>People needed four or five apps to get basic mental health support.</p></div><div><span>What I did</span><p>Interviewed people, reviewed the main apps, then designed one app that combines the best parts, plus a kids section no other app had.</p></div><div><span>The result</span><p>A full flow, wireframes and a hi-fi prototype for phone and Apple Watch.</p></div></div>
       <div class="facts">
         <div><span class="label">Role</span><b>Solo: research, UX, UI</b></div>
         <div><span class="label">Platforms</span><b>iOS app, Apple Watch</b></div>
@@ -1066,6 +1077,11 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
         </div>
         <span class="arrow" aria-hidden="true">↓</span>
         <div class="one"><b>Mentle</b><span>Daily mood check-in, journaling, guided meditation and breathing, affirmations, and small games like Worry Dolls, in one friendly app with a warm illustrated character.</span></div>
+        <div class="kidcard mh">
+          <span class="m">Only in Mentle</span>
+          <b>A kids therapy section, guided by parents</b>
+          <p>While reviewing apps, I couldn't find a single one with anything for children. So Mentle has a kids therapy section that parents set up and guide, with simple, playful activities their child can do with them.</p>
+        </div>
       </div>
     </div>
 
@@ -1293,7 +1309,7 @@ button.copy { font: 500 .75rem var(--mono); letter-spacing: .06em; text-transfor
     <div class="row">
       <span class="email"><span id="email">dai.ashraf221@gmail.com</span><button class="copy" id="copy-email" type="button">Copy</button></span>
       <a href="https://linkedin.com/in/dai-ashraf" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://drive.google.com/file/d/1mUeKTRLTqIdM7cObuhT0ZhbQy6ExCBw9/view?usp=sharing" target="_blank" rel="noopener">My CV</a>
+      <a href="cv.pdf" target="_blank" rel="noopener">My CV</a>
       <span>+20 010 919 71259</span>
     </div>
   </div>
